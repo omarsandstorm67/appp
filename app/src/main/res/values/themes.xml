@@ -1,3 +1,3 @@
 <resources>
-    <style name="Theme.Schluck" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Sternenjaeger" parent="android:Theme.Material.NoActionBar" />
 </resources>

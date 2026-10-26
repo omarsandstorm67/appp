@@ -1,45 +1,46 @@
-# Konzept: Schluck – Trink-Tracker
+# Konzept: Sternenjäger – Weltraum-Shooter
 
 ## 1. Definition der Anwendung
-**Name:** Schluck
-**Idee:** Eine schlanke Android-App, die täglich getrunkene Wassermenge erfasst und den Fortschritt zum Tagesziel zeigt. Ein Tipp = ein Glas. Kein Konto, keine Werbung, alle Daten bleiben auf dem Gerät.
-**Kernproblem:** Viele Menschen trinken zu wenig und vergessen, wie viel sie getrunken haben. Bestehende Apps sind oft überladen oder verlangen Registrierung.
+**Name:** Sternenjäger
+**Idee:** Ein Arcade-Shooter für Android. Du steuerst ein Raumschiff am unteren Bildschirmrand, wischst nach links/rechts, das Schiff feuert automatisch. Außerirdische Angreifer fliegen von oben heran und schießen zurück. Ziel: möglichst viele Aliens abschießen und den Highscore schlagen.
+**Kernproblem/Nutzen:** Kurze Spielrunden (1–5 Min.) für Zwischendurch, Ein-Finger-Steuerung, kein Konto, keine Werbung, kein Internet nötig.
 
 ## 2. Zielgruppe
-- Alter 16–60, Smartphone-Nutzer (Android), deutschsprachig
-- Gesundheitsbewusste Menschen, Büroarbeiter, Sportler, Menschen mit Trinkziel (z. B. ärztlich empfohlen)
-- Wollen Erfassung in unter 3 Sekunden, ohne Account und ohne Datenweitergabe
+- Alter 10–45, Gelegenheitsspieler auf Android-Smartphones, deutschsprachig
+- Mögen Retro-Arcade (Space Invaders, Galaga), wollen schnellen Einstieg ohne Tutorial
+- Altersfreigabe: Fantasy-Gewalt gegen Aliens (ohne Blut/Realismus), voraussichtlich USK 6 / PEGI 3–7 (Einstufung erfolgt über den IARC-Fragebogen im Play Store)
 
 ## 3. Funktionen
-### Must-haves (MVP)
-- Tagesziel festlegen (Standard 2000 ml, änderbar)
-- Schnell-Buttons: +150 / +250 / +500 ml
-- Fortschrittsanzeige (Ring + Prozent + ml)
-- Rückgängig-Funktion (letzte Menge abziehen) und Tages-Reset
-- Lokale Speicherung (Jetpack DataStore), automatischer Neustart des Zählers am nächsten Tag
+### Must-haves (MVP, bereits umgesetzt)
+- Raumschiff per Wischen steuern, automatisches Feuern
+- Aliens erscheinen laufend, schießen zurück, werden mit der Zeit schneller (Level alle 10 Abschüsse)
+- 3 Leben, kurze Unverwundbarkeit nach Treffer
+- Punktestand, Level-Anzeige, Game-Over-Bildschirm mit Neustart per Tippen
+- Highscore lokal gespeichert (Jetpack DataStore)
 
 ### Nice-to-haves (erst nach lauffähigem MVP)
-- Erinnerungs-Benachrichtigungen (Intervall, Ruhezeiten)
-- Verlauf / Wochenstatistik mit Diagramm
-- Eigene Glasgrößen, Home-Screen-Widget
-- Dark-Mode-Feinschliff, Mehrsprachigkeit (EN)
-- Optional: Health Connect-Anbindung
+- Sound und Vibration, Explosionsanimationen
+- Power-ups (Doppelschuss, Schild, Bombe), Bossgegner alle 5 Level
+- Verschiedene Schiffe/Skins, Pause-Menü, Einstellungen
+- Google-Play-Games-Bestenliste
+- Englische Lokalisierung
 
 ## 4. Technische Voraussetzungen
-- Plattform: Android (minSdk 26, targetSdk 34), Vertrieb über Google Play Store (AAB-Format)
-- Sprache/UI: Kotlin, Jetpack Compose, Material 3
-- Speicherung: Jetpack DataStore (lokal, keine Server)
+- Plattform: Android (minSdk 26, targetSdk 34), Hochformat, Vertrieb über Google Play Store (AAB)
+- Sprache/UI: Kotlin, Jetpack Compose (Canvas + eigene Game-Loop mit `withFrameNanos`), Material 3
+- Speicherung: Jetpack DataStore (nur Highscore)
 - Build: Gradle (Kotlin DSL), GitHub Actions (Debug-APK + Release-AAB als Artefakte)
-- Budget: 0 € (Google-Play-Entwicklerkonto einmalig 25 US-$ für Veröffentlichung)
+- Budget: 0 € (Play-Entwicklerkonto einmalig 25 US-$)
 
 ## 5. Store-Checkliste
-- [ ] App-Icon (adaptive, 512×512 für Store) ergänzen
+- [ ] App-Icon (adaptive Icon + 512×512 Store-Icon)
 - [ ] Release-Signierung (Keystore als GitHub Secret)
 - [ ] Datenschutzerklärung (App sammelt keine Daten)
-- [ ] Store-Eintrag: Screenshots, Kurz-/Langbeschreibung
-- [ ] Tests (Unit + UI) ergänzen
+- [ ] Screenshots, Kurz-/Langbeschreibung, Altersfreigabe (IARC)
+- [ ] Tests (Unit-Tests für Spiellogik) ergänzen
 
 ## 6. Entscheidungslog
-- Compose statt XML-Views: moderner, weniger Code
-- DataStore statt Room: MVP braucht nur 3 Werte; Room erst für Verlauf
-- Kein Gradle-Wrapper im Repo nötig: CI installiert Gradle direkt (Wrapper später per `gradle wrapper` ergänzbar)
+- Compose-Canvas statt Game-Engine: keine Zusatzbibliothek, kleine App, reicht für 2D-Arcade
+- Alle Größen relativ zur Bildschirmbreite (1 Einheit = Breite/360), damit es auf allen Geräten gleich aussieht
+- Spiellogik (`Game`) getrennt von der Darstellung, damit sie testbar bleibt
+- Kein Gradle-Wrapper im Repo: CI installiert Gradle direkt

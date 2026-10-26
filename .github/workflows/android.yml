@@ -26,9 +26,9 @@ jobs:
         run: gradle bundleRelease --no-daemon
       - uses: actions/upload-artifact@v4
         with:
-          name: schluck-debug-apk
+          name: sternenjaeger-debug-apk
           path: app/build/outputs/apk/debug/*.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: schluck-release-aab
+          name: sternenjaeger-release-aab
           path: app/build/outputs/bundle/release/*.aab

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "de.schluck.app"
+    namespace = "de.sternenjaeger.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "de.schluck.app"
+        applicationId = "de.sternenjaeger.app"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
